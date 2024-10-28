@@ -7,6 +7,7 @@ import (
 	"github.com/shiibs/fitness-app/config"
 	"github.com/shiibs/fitness-app/db"
 	"github.com/shiibs/fitness-app/handlers"
+	"github.com/shiibs/fitness-app/middlewares"
 	"github.com/shiibs/fitness-app/service"
 )
 
@@ -24,6 +25,8 @@ func main() {
 	// Auth
 	authService := service.NewAuthService(db)
 	handlers.NewAuthHandler(server.Group("/auth"), authService)
+
+	privateRoutes := server.Use(middlewares.AuthProtected(db))
 
 	app.Listen(fmt.Sprintf(":%s", envConfig.ServerPort))
 }
