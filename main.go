@@ -6,6 +6,8 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/shiibs/fitness-app/config"
 	"github.com/shiibs/fitness-app/db"
+	"github.com/shiibs/fitness-app/handlers"
+	"github.com/shiibs/fitness-app/service"
 )
 
 func main() {
@@ -17,5 +19,11 @@ func main() {
 		ServerHeader: "Fiber",
 	})
 
-	app.Listen(fmt.Sprintf(":" + envConfig.ServerPort))
+	server := app.Group("/api")
+
+	// Auth
+	authService := service.NewAuthService(db)
+	handlers.NewAuthHandler(server.Group("/auth"), authService)
+
+	app.Listen(fmt.Sprintf(":%s", envConfig.ServerPort))
 }
