@@ -1,22 +1,5 @@
 package models
 
-type Goal string
-
-const (
-	WeightLose Goal = "lose"
-	Maintain   Goal = "maintain"
-)
-
-type ActivityLevel string
-
-const (
-	Sedentary        ActivityLevel = "sedentary"
-	LightlyActive    ActivityLevel = "lightlyActive"
-	ModeratelyActive ActivityLevel = "moderatelyActive"
-	VeryActive       ActivityLevel = "veryActive"
-	SuperActive      ActivityLevel = "superActive"
-)
-
 type Gender string
 
 const (
@@ -34,19 +17,21 @@ const (
 )
 
 type User struct {
-	ID             uint
-	GoogleID       string
-	Name           string
-	Email          string
-	ImageURL       string
-	Age            int
-	Height         int // in cm
-	CurrentWeight  float32
-	Goal           Goal
-	TargetWeight   float32
-	ActivityLevel  ActivityLevel
-	Gender         Gender
-	FoodPreference FoodPreference
-	BMR            float32
-	TDEE           float32
+	ID                uint           `json:"id" gorm:"primaryKey"`
+	GoogleID          string         `json:"google_id"`
+	Name              string         `json:"name"`
+	Email             string         `json:"email"`
+	ImageURL          string         `json:"image_url"`
+	Age               int            `json:"age"`
+	Height            int            `json:"height"` // in cm
+	CurrentWeight     float32        `json:"current_weight"`
+	Goal              Goal           `json:"goal"`
+	TargetWeight      float32        `json:"target_weight"`
+	ActivityLevel     ActivityLevel  `json:"activity_level"`
+	Gender            Gender         `json:"gender"`
+	FoodPreference    FoodPreference `json:"food_preference"`
+	BMR               float32        `json:"bmr"`
+	TDEE              float32        `json:"tdee"`
+	CalorieBurnTarget int32          `json:"calorie_burn_target"`
+	WeightEntries     []WeightEntry  `json:"weight_entries" gorm:"foreignKey:UserID"` // Foreign key to WeightEntry
 }
