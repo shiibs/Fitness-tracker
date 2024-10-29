@@ -26,7 +26,12 @@ func main() {
 	authService := service.NewAuthService(db)
 	handlers.NewAuthHandler(server.Group("/auth"), authService)
 
+	// Protected Routes
 	privateRoutes := server.Use(middlewares.AuthProtected(db))
+
+	// User
+	userService := service.NewUserService(db)
+	handlers.NewUserHandler(privateRoutes, userService)
 
 	app.Listen(fmt.Sprintf(":%s", envConfig.ServerPort))
 }

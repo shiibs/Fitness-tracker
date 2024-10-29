@@ -1,5 +1,7 @@
 package models
 
+import "context"
+
 type Gender string
 
 const (
@@ -17,22 +19,27 @@ const (
 )
 
 type User struct {
-	ID                uint           `json:"id" gorm:"primaryKey"`
-	GoogleID          string         `json:"google_id"`
-	Name              string         `json:"name"`
-	Email             string         `json:"email"`
-	ImageURL          string         `json:"image_url"`
-	Age               int            `json:"age"`
-	Height            int            `json:"height"` // in cm
-	CurrentWeight     float32        `json:"current_weight"`
-	Goal              Goal           `json:"goal"`
-	TargetWeight      float32        `json:"target_weight"`
-	ActivityLevel     ActivityLevel  `json:"activity_level"`
-	Gender            Gender         `json:"gender"`
-	FoodPreference    FoodPreference `json:"food_preference"`
-	BMR               float32        `json:"bmr"`
-	TDEE              float32        `json:"tdee"`
-	CalorieBurnTarget int32          `json:"calorie_burn_target"`
-	WaterTarget       int32          `json:"water_target"`
-	WeightEntries     []WeightEntry  `json:"weight_entries" gorm:"foreignKey:UserID"` // Foreign key to WeightEntry
+	ID                 uint           `json:"id" gorm:"primaryKey"`
+	GoogleID           string         `json:"google_id"`
+	Name               string         `json:"name"`
+	Email              string         `json:"email"`
+	ImageURL           string         `json:"image_url"`
+	Age                int            `json:"age"`
+	Height             int            `json:"height"` // in cm
+	CurrentWeight      float32        `json:"current_weight"`
+	Goal               Goal           `json:"goal"`
+	TargetWeight       float32        `json:"target_weight"`
+	ActivityLevel      ActivityLevel  `json:"activity_level"`
+	Gender             Gender         `json:"gender"`
+	FoodPreference     FoodPreference `json:"food_preference"`
+	BMR                float32        `json:"bmr"`
+	TDEE               float32        `json:"tdee"`
+	CalorieBurnTarget  int32          `json:"calorie_burn_target"`
+	DailyCaloricIntake float32        `json:"daily_caloric_intake"`
+	WaterTarget        int32          `json:"water_target"`
+	WeightEntries      []WeightEntry  `json:"weight_entries" gorm:"foreignKey:UserID"` // Foreign key to WeightEntry
+}
+
+type UserRepository interface {
+	UpdateUser(ctx context.Context, userId uint, userData *User) (*User, error)
 }
