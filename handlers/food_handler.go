@@ -12,9 +12,9 @@ type FoodHandler struct {
 
 func NewFoodHandler(router fiber.Router, foodService service.FoodService) {
 	handler := &FoodHandler{foodService}
-	foodHadler := router.Group("/food")
+	foodRouter := router.Group("/food")
 
-	foodHadler.Post("/", handler.LogFoodEntry)
+	foodRouter.Post("/", handler.LogFoodEntry)
 }
 
 func (h *FoodHandler) LogFoodEntry(ctx *fiber.Ctx) error {

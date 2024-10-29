@@ -33,5 +33,13 @@ func main() {
 	userService := service.NewUserService(db)
 	handlers.NewUserHandler(privateRoutes, userService)
 
+	// Food Entry
+	foodService := service.NewFoodService(db)
+	handlers.NewFoodHandler(privateRoutes, foodService)
+
+	// Workout entry
+	workoutService := service.NewWorkoutService(db)
+	handlers.NewWorkoutHandler(privateRoutes, workoutService)
+
 	app.Listen(fmt.Sprintf(":%s", envConfig.ServerPort))
 }
