@@ -1,7 +1,5 @@
 package models
 
-import "context"
-
 type Gender string
 
 const (
@@ -38,8 +36,4 @@ type User struct {
 	DailyCaloricIntake float32        `json:"daily_caloric_intake"`
 	WaterTarget        int32          `json:"water_target"`
 	WeightEntries      []WeightEntry  `json:"weight_entries" gorm:"foreignKey:UserID"` // Foreign key to WeightEntry
-}
-
-type UserRepository interface {
-	UpdateUser(ctx context.Context, userId uint, userData *User) (*User, error)
 }

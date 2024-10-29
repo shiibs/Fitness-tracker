@@ -1,7 +1,5 @@
 package models
 
-import "time"
-
 type CalorieBudget struct {
 	Breakfast    float32 `json:"breakfast"`
 	MorningSnack float32 `json:"morning_snack"`
@@ -19,7 +17,7 @@ type DailyLog struct {
 	TDEE                 float32       `json:"tdee"`
 	CalorieBurned        int32         `json:"calorie_burned"`
 	TargetCaloriesBurned int32         `json:"target_calories_burned"`
-	Date                 time.Time     `json:"date"`
+	Date                 string        `json:"date"`
 	CalorieBudgets       CalorieBudget `json:"calorie_budgets"`
 	CaloriesPerMeal      CalorieBudget `json:"calories_per_meal"` // Track actual intake
 }

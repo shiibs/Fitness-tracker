@@ -12,5 +12,6 @@ func DBMigrator(db *gorm.DB) error {
 		&models.DailyLog{},
 		&models.Food{},
 		&models.FoodEntry{},
+		&models.WorkoutEntry{},
 	)
 }
