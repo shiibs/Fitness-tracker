@@ -33,5 +33,6 @@ type User struct {
 	BMR               float32        `json:"bmr"`
 	TDEE              float32        `json:"tdee"`
 	CalorieBurnTarget int32          `json:"calorie_burn_target"`
+	WaterTarget       int32          `json:"water_target"`
 	WeightEntries     []WeightEntry  `json:"weight_entries" gorm:"foreignKey:UserID"` // Foreign key to WeightEntry
 }
