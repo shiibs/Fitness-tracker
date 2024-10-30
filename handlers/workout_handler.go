@@ -19,7 +19,14 @@ func NewWorkoutHandler(router fiber.Router, workoutService service.WorkoutServic
 }
 
 func (h *WorkoutHandler) LogWorkout(ctx *fiber.Ctx) error {
-	userId := ctx.Locals("userId").(uint)
+	userId, ok := ctx.Locals("userId").(uint)
+	if !ok {
+		return ctx.Status(fiber.StatusUnauthorized).JSON(&fiber.Map{
+			"status": "fail",
+			"error":  "Unauthorized",
+		})
+	}
+
 	workoutEntry := new(models.WorkoutEntry)
 
 	if err := ctx.BodyParser(workoutEntry); err != nil {

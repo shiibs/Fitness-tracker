@@ -58,7 +58,24 @@ func AuthProtected(db *gorm.DB) fiber.Handler {
 			})
 		}
 
-		userId := uint(token.Claims.(jwt.MapClaims)["user_id"].(float64))
+		claims, ok := token.Claims.(jwt.MapClaims)
+		if !ok || !token.Valid {
+			log.Println("invalid token claims")
+			return ctx.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+				"status":  "fail",
+				"message": "Unauthorized",
+			})
+		}
+
+		userId, ok := claims["userId"].(float64)
+		if !ok {
+			log.Println("invalid user_id in token claims")
+			return ctx.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+				"status":  "fail",
+				"message": "Unauthorized",
+			})
+		}
+
 		if err := db.First(&models.User{}, userId).Error; errors.Is(err, gorm.ErrRecordNotFound) {
 			log.Println("user not found in the db")
 			return ctx.Status(fiber.StatusUnauthorized).JSON(fiber.Map{

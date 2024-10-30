@@ -18,7 +18,14 @@ func NewFoodHandler(router fiber.Router, foodService service.FoodService) {
 }
 
 func (h *FoodHandler) LogFoodEntry(ctx *fiber.Ctx) error {
-	userId := ctx.Locals("userId").(uint)
+	userId, ok := ctx.Locals("userId").(uint)
+	if !ok {
+		return ctx.Status(fiber.StatusUnauthorized).JSON(&fiber.Map{
+			"status": "fail",
+			"error":  "Unauthorized",
+		})
+	}
+
 	foodEntry := new(models.FoodEntry)
 
 	if err := ctx.BodyParser(foodEntry); err != nil {

@@ -14,11 +14,18 @@ func NewUserHandler(router fiber.Router, userService service.UserService) {
 	handler := &UserHandler{userService}
 	userRouter := router.Group("/user")
 
-	userRouter.Put("/", handler.CreateOrUpdateUser)
+	userRouter.Put("/", handler.UpdateUser)
 }
 
-func (h *UserHandler) CreateOrUpdateUser(ctx *fiber.Ctx) error {
-	userId := ctx.Locals("userId").(uint)
+func (h *UserHandler) UpdateUser(ctx *fiber.Ctx) error {
+	userId, ok := ctx.Locals("userId").(uint)
+	if !ok {
+		return ctx.Status(fiber.StatusUnauthorized).JSON(&fiber.Map{
+			"status": "fail",
+			"error":  "Unauthorized",
+		})
+	}
+
 	userRequest := new(models.User)
 
 	if err := ctx.BodyParser(userRequest); err != nil {

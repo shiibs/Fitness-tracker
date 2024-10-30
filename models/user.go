@@ -1,5 +1,7 @@
 package models
 
+import "time"
+
 type Gender string
 
 const (
@@ -36,4 +38,6 @@ type User struct {
 	DailyCaloricIntake float32        `json:"daily_caloric_intake"`
 	WaterTarget        int32          `json:"water_target"`
 	WeightEntries      []WeightEntry  `json:"weight_entries" gorm:"foreignKey:UserID"` // Foreign key to WeightEntry
+	CreatedAt          time.Time      `json:"created_at"`
+	UpdatedAt          time.Time      `json:"updated_at"`
 }
